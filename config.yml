@@ -1,0 +1,47 @@
+mqtt:
+  host: 192.168.123.39
+
+detectors:
+  coral:
+    type: edgetpu
+    device: usb
+
+cameras:
+  tplink: # <------ Name the camera
+    ffmpeg:
+      inputs:
+        - path: rtsp://admin:a12345678@192.168.123.13/stream2 # <----- Update for your camera
+          roles:
+            - detect
+            - rtmp
+    record:
+      enabled: True
+      retain:
+        days: 3
+        mode: motion
+      events:
+        retain:
+          default: 3
+          mode: active_objects
+  home: # <------ Name the camera
+    ffmpeg:
+      inputs:
+        - path: rtsp://admin:a12345678@192.168.188.108/live/main # <----- Update for your camera
+          roles:
+            - detect
+            - rtmp
+    record:
+      enabled: True
+      retain:
+        days: 3
+        mode: motion
+      events:
+        retain:
+          default: 3
+          mode: active_objects
+    rtmp:
+      enabled: True # <-- RTMP should be disabled if your stream is not H264
+    detect:
+      width: 1280 # <---- update for your camera's resolution
+      height: 720 # <---- update for your camera's resolution
+
